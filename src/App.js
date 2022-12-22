@@ -6,7 +6,7 @@ import Control from './components/Control';
 
 const App = () => {
     const [breakLength, setBreakLength] = useState(5);
-    const [sessionLength, setSessionLength] = useState(1);
+    const [sessionLength, setSessionLength] = useState(25);
     const [currEvent, setCurrEvent] = useState('SESSION'); // current event SESSION or BREAK
     const [isPaused, setIsPaused] = useState(true); // is timer paused (default true)
 
@@ -36,6 +36,41 @@ const App = () => {
         }
     }, [runningMin, runningSec]);
 
+    const timeout = setTimeout(() => {
+        if (!isPaused) {
+            setRunningSec(runningSec - 1);
+            if (runningSec <= 0) {
+                setRunningSec(59);
+                setRunningMin(runningMin - 1);
+            }
+
+            if (runningMin <= 0 && runningSec <= 0) {
+                console.log(
+                    currEvent === 'SESSION'
+                        ? 'break started'
+                        : 'session started'
+                );
+                if (currEvent === 'SESSION') {
+                    setCurrEvent('BREAK');
+                    setRunningMin(breakLength);
+                    setRunningSec(0);
+                } else {
+                    setCurrEvent('SESSION');
+                    setRunningMin(sessionLength);
+                    setRunningSec(0);
+                }
+            }
+        }
+    }, 1000);
+
+    const clock = () => {
+        if (!isPaused) {
+            timeout;
+        } else {
+            clearTimeout(timeout);
+        }
+    };
+
     return (
         <>
             <div className='app-container flex justify-center items-center flex-col'>
@@ -55,16 +90,21 @@ const App = () => {
                 />
                 <Display
                     runningMin={runningMin}
-                    setRunningMin={setRunningMin}
                     runningSec={runningSec}
-                    setRunningSec={setRunningSec}
                     currEvent={currEvent}
-                    setCurrEvent={setCurrEvent}
-                    isPaused={isPaused}
-                    breakLength={breakLength}
-                    sessionLength={sessionLength}
                 />
-                <Control isPaused={isPaused} setIsPaused={setIsPaused} />
+                <Control
+                    isPaused={isPaused}
+                    setIsPaused={setIsPaused}
+                    sessionLength={sessionLength}
+                    setRunningMin={setRunningMin}
+                    setRunningSec={setRunningSec}
+                    setCurrEvent={setCurrEvent}
+                    setBreakLength={setBreakLength}
+                    setSessionLength={setSessionLength}
+                    audioRef={audioRef}
+                    timeout={timeout}
+                />
             </div>
             <p className='mt-5 text-gray-600'>
                 Created By:{' '}

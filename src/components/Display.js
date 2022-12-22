@@ -1,43 +1,6 @@
 import React from 'react';
 
-const Display = ({
-    runningMin,
-    setRunningMin,
-    runningSec,
-    setRunningSec,
-    currEvent,
-    setCurrEvent,
-    isPaused,
-    breakLength,
-    sessionLength,
-}) => {
-    setTimeout(() => {
-        if (!isPaused) {
-            setRunningSec(runningSec - 1);
-            if (runningSec <= 0) {
-                setRunningSec(59);
-                setRunningMin(runningMin - 1);
-            }
-
-            if (runningMin <= 0 && runningSec <= 0) {
-                console.log(
-                    currEvent === 'SESSION'
-                        ? 'break started'
-                        : 'session started'
-                );
-                if (currEvent === 'SESSION') {
-                    setCurrEvent('BREAK');
-                    setRunningMin(breakLength);
-                    setRunningSec(0);
-                } else {
-                    setCurrEvent('SESSION');
-                    setRunningMin(sessionLength);
-                    setRunningSec(0);
-                }
-            }
-        }
-    }, 125);
-
+const Display = ({ runningMin, runningSec, currEvent }) => {
     return (
         <div
             id='display'

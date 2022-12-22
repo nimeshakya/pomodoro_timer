@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { HiPlus, HiMinus } from 'react-icons/hi';
+import { HiPlus, HiMinus } from 'react-icons/hi2';
 
 const Setter = ({
     breakLength,
@@ -8,10 +8,6 @@ const Setter = ({
     sessionLength,
     setSessionLength,
     isPaused,
-    runningMin,
-    setRunningMin,
-    runningSec,
-    setRunningSec,
 }) => {
     const increaseBreak = () => {
         if (breakLength < 60 && isPaused) {
@@ -65,7 +61,7 @@ const Setter = ({
                 <div id='session-label'>Session Length</div>
                 <div className='w-full flex justify-between px-8 items-center'>
                     <button
-                        id='session-increment '
+                        id='session-increment'
                         className='set-btn'
                         onClick={increaseSession}
                     >
