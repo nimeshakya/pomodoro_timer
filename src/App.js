@@ -63,14 +63,6 @@ const App = () => {
         }
     }, 1000);
 
-    const clock = () => {
-        if (!isPaused) {
-            timeout;
-        } else {
-            clearTimeout(timeout);
-        }
-    };
-
     return (
         <>
             <div className='app-container flex justify-center items-center flex-col'>
